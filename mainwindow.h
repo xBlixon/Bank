@@ -19,5 +19,8 @@ public:
 
 private:
     Ui::MainWindow *ui;
+
+public:
+    void loadDatabase();
 };
 #endif // MAINWINDOW_H
