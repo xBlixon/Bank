@@ -7,13 +7,15 @@ using namespace sqlite_orm;
 
 class BankDB {
 public:
-    static auto connect(const std::string& path) {
-        return make_storage(path,
-                        make_table("users",
-                                   make_column("id", &User::id, primary_key()),
-                                   make_column("username", &User::username)
-                                )
-                        );
+    static auto getStorage(const std::string& path) {
+        auto storage =  make_storage(path,
+                                make_table("users",
+                                           make_column("id", &User::id, primary_key()),
+                                           make_column("username", &User::username)
+                                        )
+                                );
+        storage.sync_schema();
+        return storage;
     }
     static void setPath(const std::string& path) {
         BankDB::path = path;
