@@ -10,7 +10,7 @@ public:
     static auto connect(const std::string& path) {
         return make_storage(path,
                         make_table("users",
-                                   make_column("id", &User::id),
+                                   make_column("id", &User::id, primary_key()),
                                    make_column("username", &User::username)
                                 )
                         );
