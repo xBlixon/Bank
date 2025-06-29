@@ -6,6 +6,8 @@ UserWindow::UserWindow(QWidget *parent)
     , ui(new Ui::UserWindow)
 {
     ui->setupUi(this);
+    this->setWindowFlag(Qt::Window);
+    this->setWindowTitle("User Menu");
 }
 
 UserWindow::~UserWindow()

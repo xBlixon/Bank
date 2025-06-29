@@ -1,9 +1,10 @@
 #include "mainwindow.h"
-#include "./ui_mainwindow.h"
+#include "ui_mainwindow.h"
 #include "QFileDialog"
 #include "QString"
 #include "bankdb.h"
 #include "userwindow.h"
+#include "fmt/format.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -27,8 +28,8 @@ void MainWindow::loadDatabase()
 
 void MainWindow::loginUser()
 {
-    ui->username->setText("Activated");
-    UserWindow w(this);
-    w.setWindowTitle("User Menu");
-    w.show();
+    UserWindow* w = new UserWindow(this);
+    QString title = QString::fromStdString(fmt::format("Logged in as: {}", ui->username->text().toStdString()));
+    w->setWindowTitle(title);
+    w->show();
 }
