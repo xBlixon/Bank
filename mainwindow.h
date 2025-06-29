@@ -23,6 +23,5 @@ private:
 public:
     void loadDatabase();
     void loginUser();
-    bool validateCredentials();
 };
 #endif // MAINWINDOW_H

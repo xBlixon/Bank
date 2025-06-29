@@ -1,3 +1,5 @@
+#include "user.h"
+
 #ifndef USERWINDOW_H
 #define USERWINDOW_H
 
@@ -12,10 +14,11 @@ class UserWindow : public QWidget
     Q_OBJECT
 
 public:
-    explicit UserWindow(QWidget *parent = nullptr);
+    explicit UserWindow(User& user, QWidget *parent = nullptr);
     ~UserWindow();
 
 private:
+    User user;
     Ui::UserWindow *ui;
 };
 

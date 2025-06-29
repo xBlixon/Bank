@@ -31,24 +31,19 @@ void MainWindow::loadDatabase()
 
 void MainWindow::loginUser()
 {
-    if(!validateCredentials()) {
-        return; //No such user
-    }
-    UserWindow* w = new UserWindow(this);
-    QString title = QString::fromStdString(fmt::format("Logged in as: {}", ui->username->text().toStdString()));
-    w->setWindowTitle(title);
-    w->show();
-}
-
-bool MainWindow::validateCredentials()
-{
     auto storage = BankDB::getStorage();
     std::string username = ui->username->text().toStdString();
     std::string password = ui->password->text().toStdString();
 
-    auto rows = storage.select(asterisk<User>(),
+    auto rows = storage.get_all<User>(
                                where((c(&User::username) == username) and (c(&User::password) == password)),
                                limit(1)
         );
-    return rows.size();
+
+    if(rows.empty()) {
+        return; //No such user - don't do anything.
+    }
+    User user = rows.at(0);
+    UserWindow* w = new UserWindow(user, this);
+    w->show();
 }
