@@ -11,7 +11,8 @@ public:
         auto storage =  make_storage(path,
                                 make_table("users",
                                            make_column("id", &User::id, primary_key()),
-                                           make_column("username", &User::username)
+                                           make_column("username", &User::username),
+                                           make_column("password", &User::password)
                                         )
                                 );
         storage.sync_schema();
