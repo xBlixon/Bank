@@ -7,7 +7,7 @@ using namespace sqlite_orm;
 
 class BankDB {
 public:
-    static auto getStorage(const std::string& path) {
+    static auto getStorage() {
         auto storage =  make_storage(path,
                                 make_table("users",
                                            make_column("id", &User::id, primary_key()),
