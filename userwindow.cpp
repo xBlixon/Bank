@@ -12,7 +12,6 @@ UserWindow::UserWindow(User& user, QWidget *parent)
 
     QString title = QString::fromStdString(fmt::format("Logged in as: {}", this->user.username));
     this->setWindowTitle(title);
-
 }
 
 UserWindow::~UserWindow()
