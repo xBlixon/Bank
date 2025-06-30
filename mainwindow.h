@@ -1,6 +1,7 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 #include <QMainWindow>
+#include "user.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -18,9 +19,14 @@ public:
 
 private:
     Ui::MainWindow *ui;
+    std::vector<User> logged_users;
 
 public:
     void loadDatabase();
     void loginUser();
+    bool isUserLoggedIn(User& user);
+
+protected:
+    void closeEvent(QCloseEvent *event) override;
 };
 #endif // MAINWINDOW_H

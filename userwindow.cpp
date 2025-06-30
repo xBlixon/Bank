@@ -8,6 +8,7 @@ UserWindow::UserWindow(User& user, QWidget *parent)
 {
     ui->setupUi(this);
     this->setWindowFlag(Qt::Window);
+    this->setAttribute(Qt::WA_DeleteOnClose);
     this->user = user;
 
     QString title = QString::fromStdString(fmt::format("Logged in as: {}", this->user.username));

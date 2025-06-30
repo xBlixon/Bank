@@ -4,20 +4,37 @@
 #include "bankdb.h"
 #include "userwindow.h"
 #include "fmt/format.h"
+#include "QCloseEvent"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
+    this->logged_users = std::vector<User>();
     ui->setupUi(this);
     this->setWindowTitle("Bank (No file)");
     connect(ui->loadDatabase, &QAction::triggered, this, &MainWindow::loadDatabase);
     connect(ui->loginButton, &QAbstractButton::clicked, this, &MainWindow::loginUser);
 }
 
+void MainWindow::closeEvent(QCloseEvent *event) {
+    for (QWidget *widget : QApplication::topLevelWidgets()) {
+        if (widget != this && widget->isVisible()) {
+            event->ignore();
+            return;
+        }
+    }
+    event->accept();
+}
+
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+
+bool MainWindow::isUserLoggedIn(User& user)
+{
+    return std::find(logged_users.begin(), logged_users.end(), user) != logged_users.end();
 }
 
 void MainWindow::loadDatabase()
@@ -44,6 +61,17 @@ void MainWindow::loginUser()
         return; //No such user - don't do anything.
     }
     User user = rows.at(0);
+    if(isUserLoggedIn(user)) {
+        return; // User window opened already.
+    }
+
+    logged_users.push_back(user);
     UserWindow* w = new UserWindow(user, this);
+
+    connect(w, &UserWindow::destroyed, this, [this, user = user]{
+        auto it = std::find(logged_users.begin(), logged_users.end(), user);
+        logged_users.erase(it);
+    });
+
     w->show();
 }

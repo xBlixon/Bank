@@ -2,6 +2,7 @@
 #define USERWINDOW_H
 #include "user.h"
 #include <QWidget>
+#include "personalaccount.h"
 
 namespace Ui {
 class UserWindow;
@@ -14,10 +15,12 @@ class UserWindow : public QWidget
 public:
     explicit UserWindow(User& user, QWidget *parent = nullptr);
     ~UserWindow();
+    User getUser();
 
 private:
     User user;
     Ui::UserWindow *ui;
+    std::optional<PersonalAccount> personal_account;
 };
 
 #endif // USERWINDOW_H
