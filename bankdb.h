@@ -1,9 +1,8 @@
+#ifndef BANKDB_H
+#define BANKDB_H
 #include "sqlite_orm/sqlite_orm.h"
 #include "user.h"
 using namespace sqlite_orm;
-
-#ifndef BANKDB_H
-#define BANKDB_H
 
 class BankDB {
 public:

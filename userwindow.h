@@ -1,8 +1,6 @@
-#include "user.h"
-
 #ifndef USERWINDOW_H
 #define USERWINDOW_H
-
+#include "user.h"
 #include <QWidget>
 
 namespace Ui {
