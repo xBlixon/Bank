@@ -15,7 +15,6 @@ class UserWindow : public QWidget
 public:
     explicit UserWindow(User& user, QWidget *parent = nullptr);
     ~UserWindow();
-    User getUser();
 
 private:
     User user;
