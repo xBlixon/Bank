@@ -14,6 +14,7 @@ PersonalAccountWindow::PersonalAccountWindow(PersonalAccount account, QWidget *p
 
     connect(ui->deposit, &QAbstractButton::clicked, this, &PersonalAccountWindow::deposit);
     connect(ui->withdraw, &QAbstractButton::clicked, this, &PersonalAccountWindow::withdraw);
+    connect(ui->transfer_personal, &QAbstractButton::clicked, this, &PersonalAccountWindow::transferToPersonal);
 }
 
 PersonalAccountWindow::~PersonalAccountWindow()
@@ -21,20 +22,38 @@ PersonalAccountWindow::~PersonalAccountWindow()
     delete ui;
 }
 
+int PersonalAccountWindow::sanitizeAmount()
+{
+    int amount = ui->amount->text().toInt();
+    amount = amount < 0 ? -amount : amount;
+    ui->amount->setText(QString::number(amount));
+    return amount;
+}
+
 void PersonalAccountWindow::updateBalance()
 {
-    PersonalAccount latest = Fetcher::getPersonalAccount(account.id);
+    PersonalAccount latest = Fetcher::getPersonalAccount(account.id).value();
     ui->balance->setText(QString::number(latest.balance));
 }
 
 void PersonalAccountWindow::deposit()
 {
-    int amount = ui->amount->text().toInt();
-    depositFunds(account.user_id, AccountType::Personal, amount);
+    depositFunds(account.user_id, AccountType::Personal, sanitizeAmount());
 }
 
 void PersonalAccountWindow::withdraw()
 {
-    int amount = ui->amount->text().toInt();
-    withdrawFunds(account.user_id, AccountType::Personal, amount);
+    withdrawFunds(account.user_id, AccountType::Personal, sanitizeAmount());
+}
+
+
+void PersonalAccountWindow::transferToPersonal()
+{
+    int receiver_id = ui->receiver_user_id->text().toInt();
+    transferFunds(account.user_id, AccountType::Personal, receiver_id, AccountType::Personal, sanitizeAmount());
+}
+
+void PersonalAccountWindow::transferToSavings()
+{
+
 }

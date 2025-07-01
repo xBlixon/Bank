@@ -27,7 +27,7 @@ UserWindow::~UserWindow()
 
 void UserWindow::fetchAccounts()
 {
-    personal_account = Fetcher::getPersonalAccountFromUserId(user.id);
+    personal_account = Fetcher::getPersonalAccountFromUserId(user.id).value();
 }
 
 void UserWindow::openPersonalAccount()

@@ -6,14 +6,14 @@
 class Fetcher
 {
 public:
-    static PersonalAccount getPersonalAccountFromUserId(int user_id) {
+    static std::optional<PersonalAccount> getPersonalAccountFromUserId(int user_id) {
         auto storage = BankDB::getStorage();
         return storage.get_all<PersonalAccount>(
             where(c(&PersonalAccount::user_id) == user_id)
             ).front();
     }
 
-    static PersonalAccount getPersonalAccount(int id) {
+    static std::optional<PersonalAccount> getPersonalAccount(int id) {
         auto storage = BankDB::getStorage();
         return storage.get_all<PersonalAccount>(
             where(c(&PersonalAccount::id) == id)

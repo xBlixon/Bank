@@ -22,7 +22,10 @@ private:
     PersonalAccount account;
     void deposit();
     void withdraw();
+    void transferToPersonal();
+    void transferToSavings();
     void updateBalance() override;
+    int sanitizeAmount() override;
 };
 
 #endif // PERSONALACCOUNTWINDOW_H
