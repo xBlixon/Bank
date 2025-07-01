@@ -10,12 +10,12 @@ class BankDB {
 public:
     static auto getStorage() {
         auto storage = make_storage(path,
-                                    make_table("users",
+                                    make_table<User>("users",
                                                make_column("id", &User::id, primary_key()),
                                                make_column("username", &User::username),
                                                make_column("password", &User::password)
                                                ),
-                                    make_table("personal_account",
+                                    make_table<PersonalAccount>("personal_account",
                                                make_column("id", &PersonalAccount::id, primary_key()),
                                                make_column("user_id", &PersonalAccount::user_id),
                                                make_column("balance", &PersonalAccount::balance),
@@ -43,7 +43,5 @@ private:
     BankDB& operator=(const BankDB&) = delete;
     static std::string path;
 };
-
-std::string BankDB::path = "";
 
 #endif // BANKDB_H

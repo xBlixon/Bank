@@ -21,7 +21,7 @@ private:
     Ui::UserWindow *ui;
     std::optional<PersonalAccount> personal_account;
 
-private:
+    void fetchAccounts();
     void openPersonalAccount();
 };
 
