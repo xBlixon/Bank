@@ -19,7 +19,7 @@ public:
 private:
     User user;
     Ui::UserWindow *ui;
-    std::optional<PersonalAccount> personal_account;
+    PersonalAccount personal_account;
 
     void fetchAccounts();
     void openPersonalAccount();

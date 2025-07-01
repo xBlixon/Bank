@@ -1,17 +1,18 @@
 #include "userwindow.h"
 #include "ui_userwindow.h"
 #include "fmt/format.h"
-#include "bankdb.h"
+#include "personalaccountwindow.h"
+#include "fetcher.h"
 
 UserWindow::UserWindow(User& user, QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::UserWindow)
+    , user(user)
 {
     fetchAccounts();
     ui->setupUi(this);
     this->setWindowFlag(Qt::Window);
     this->setAttribute(Qt::WA_DeleteOnClose);
-    this->user = user;
 
     QString title = QString::fromStdString(fmt::format("Logged in as: {}", this->user.username));
     this->setWindowTitle(title);
@@ -26,17 +27,11 @@ UserWindow::~UserWindow()
 
 void UserWindow::fetchAccounts()
 {
-    auto storage = BankDB::getStorage();
-
-    std::vector<PersonalAccount> personals = storage.get_all<PersonalAccount>(
-        where(c(&PersonalAccount::user_id) == user.id),
-        limit(1)
-        );
-    if(!personals.empty()) {
-        personal_account = personals.at(0);
-    }
+    personal_account = Fetcher::getPersonalAccountFromUserId(user.id);
 }
 
 void UserWindow::openPersonalAccount()
 {
+    PersonalAccountWindow* w = new PersonalAccountWindow(personal_account, this);
+    w->show();
 }

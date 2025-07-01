@@ -31,9 +31,12 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         user.h user.cpp
         bankdb.h bankdb.cpp
         userwindow.h userwindow.cpp userwindow.ui
-        account.h
-        personalaccount.h personalaccount.cpp
 
+        personalaccount.h personalaccount.cpp
+        personalaccountwindow.h personalaccountwindow.cpp personalaccountwindow.ui
+        accountwindowbase.h accountwindowbase.cpp
+        AccountTypes.h
+        fetcher.h
     )
 # Define target properties for Android with Qt 6 as:
 #    set_property(TARGET Bank APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR
