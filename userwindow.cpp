@@ -1,12 +1,14 @@
 #include "userwindow.h"
 #include "ui_userwindow.h"
 #include "fmt/format.h"
+#include "accountwindow.h"`:w
 
 UserWindow::UserWindow(User& user, QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::UserWindow)
 {
     ui->setupUi(this);
+    connect(ui->personalButton, &QAbstractButton::clicked, this, &UserWindow::openPersonalAccount);
     this->setWindowFlag(Qt::Window);
     this->setAttribute(Qt::WA_DeleteOnClose);
     this->user = user;
@@ -18,4 +20,10 @@ UserWindow::UserWindow(User& user, QWidget *parent)
 UserWindow::~UserWindow()
 {
     delete ui;
+}
+
+void UserWindow::openPersonalAccount()
+{
+    AccountWindow* w = new AccountWindow();
+    w->show();
 }

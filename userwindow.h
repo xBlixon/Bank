@@ -20,6 +20,9 @@ private:
     User user;
     Ui::UserWindow *ui;
     std::optional<PersonalAccount> personal_account;
+
+private:
+    void openPersonalAccount();
 };
 
 #endif // USERWINDOW_H
