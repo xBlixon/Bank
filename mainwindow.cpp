@@ -10,11 +10,11 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
-    connect(ui->loadDatabase, &QAction::triggered, this, &MainWindow::loadDatabase);
-    connect(ui->loginButton, &QAbstractButton::clicked, this, &MainWindow::loginUser);
     this->logged_users = std::vector<User>();
     ui->setupUi(this);
     this->setWindowTitle("Bank (No file)");
+    connect(ui->loadDatabase, &QAction::triggered, this, &MainWindow::loadDatabase);
+    connect(ui->loginButton, &QAbstractButton::clicked, this, &MainWindow::loginUser);
 }
 
 void MainWindow::closeEvent(QCloseEvent *event) {
