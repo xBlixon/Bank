@@ -1,7 +1,7 @@
 #include "userwindow.h"
 #include "ui_userwindow.h"
 #include "fmt/format.h"
-#include "accountwindow.h"`
+#include "accountwindow.h"
 
 UserWindow::UserWindow(User& user, QWidget *parent)
     : QWidget(parent)

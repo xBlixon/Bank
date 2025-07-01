@@ -40,6 +40,7 @@ bool MainWindow::isUserLoggedIn(User& user)
 void MainWindow::loadDatabase()
 {
     QString dbPath = QFileDialog::getOpenFileName(this, "Database file");
+    dbPath = dbPath == "" ? "No file" : dbPath;
     BankDB::setPath(dbPath.toStdString());
     std::string fileName = QFileInfo(dbPath).fileName().toStdString();
     QString title = QString::fromStdString(fmt::format("Bank ({})", fileName));
