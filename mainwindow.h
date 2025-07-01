@@ -1,6 +1,7 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 #include <QMainWindow>
+#include <QSettings>
 #include "user.h"
 
 QT_BEGIN_NAMESPACE
@@ -20,11 +21,13 @@ public:
 private:
     Ui::MainWindow *ui;
     std::vector<User> logged_users;
+    QSettings settings;
 
-public:
     void loadDatabase();
     void loginUser();
     bool isUserLoggedIn(User& user);
+    void savePath(const QString& path);
+    QString getPath();
 
 protected:
     void closeEvent(QCloseEvent *event) override;

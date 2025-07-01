@@ -9,10 +9,15 @@
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
+    , settings("BlixSoft", "Bank")
 {
+    QString dbPath = getPath();
+    BankDB::setPath(dbPath);
+    dbPath = dbPath == "" ? "No File" : QFileInfo(dbPath).fileName();
     this->logged_users = std::vector<User>();
     ui->setupUi(this);
-    this->setWindowTitle("Bank (No file)");
+    QString title = QString::fromStdString(fmt::format("Bank ({})", dbPath.toStdString()));
+    this->setWindowTitle(title);
     connect(ui->loadDatabase, &QAction::triggered, this, &MainWindow::loadDatabase);
     connect(ui->loginButton, &QAbstractButton::clicked, this, &MainWindow::loginUser);
 }
@@ -37,11 +42,22 @@ bool MainWindow::isUserLoggedIn(User& user)
     return std::find(logged_users.begin(), logged_users.end(), user) != logged_users.end();
 }
 
+void MainWindow::savePath(const QString& path)
+{
+    settings.setValue("lastDatabasePath", path);
+}
+
+QString MainWindow::getPath()
+{
+    return settings.value("lastDatabasePath", QString()).toString();
+}
+
 void MainWindow::loadDatabase()
 {
     QString dbPath = QFileDialog::getOpenFileName(this, "Database file");
+    savePath(dbPath);
+    BankDB::setPath(dbPath);
     dbPath = dbPath == "" ? "No file" : dbPath;
-    BankDB::setPath(dbPath.toStdString());
     std::string fileName = QFileInfo(dbPath).fileName().toStdString();
     QString title = QString::fromStdString(fmt::format("Bank ({})", fileName));
     this->setWindowTitle(title);

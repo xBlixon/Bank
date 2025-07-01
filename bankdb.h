@@ -3,6 +3,7 @@
 #include "sqlite_orm/sqlite_orm.h"
 #include "user.h"
 #include "personalaccount.h"
+#include <QString>
 using namespace sqlite_orm;
 
 class BankDB {
@@ -27,6 +28,9 @@ public:
     }
     static void setPath(const std::string& path) {
         BankDB::path = path;
+    }
+    static void setPath(const QString& path) {
+        BankDB::path = path.toStdString();
     }
     static std::string getPath() {
         return BankDB::path;
