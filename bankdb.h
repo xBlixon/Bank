@@ -16,7 +16,7 @@ public:
                                                make_column("username", &User::username),
                                                make_column("password", &User::password)
                                                ),
-                                    make_table<PersonalAccount>("personal_account",
+                                    make_table<PersonalAccount>("personal_accounts",
                                                make_column("id", &PersonalAccount::id, primary_key()),
                                                make_column("user_id", &PersonalAccount::user_id),
                                                make_column("balance", &PersonalAccount::balance),
