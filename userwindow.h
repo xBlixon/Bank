@@ -3,6 +3,7 @@
 #include "user.h"
 #include <QWidget>
 #include "personalaccount.h"
+#include "savingsaccount.h"
 
 namespace Ui {
 class UserWindow;
@@ -19,10 +20,12 @@ public:
 private:
     User user;
     Ui::UserWindow *ui;
-    PersonalAccount personal_account;
+    std::optional<PersonalAccount> personal_account;
+    std::optional<SavingsAccount> savings_account;
 
     void fetchAccounts();
     void openPersonalAccount();
+    void openSavingsAccount();
 };
 
 #endif // USERWINDOW_H

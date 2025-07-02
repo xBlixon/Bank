@@ -16,6 +16,10 @@ void AccountWindowBase::depositFunds(int user_id, AccountType type, int amount)
         break;
     }
     case AccountType::Savings:
+        storage.update_all(
+            set(c(&SavingsAccount::balance) = c(&SavingsAccount::balance) + amount),
+            where(c(&SavingsAccount::user_id) == user_id)
+            );
         break;
     }
 
@@ -37,6 +41,13 @@ void AccountWindowBase::withdrawFunds(int user_id, AccountType type, int amount)
         break;
     }
     case AccountType::Savings:
+        SavingsAccount a = Fetcher::getSavingsAccountFromUserId(user_id).value();
+        int newAmount = a.balance - amount;
+        newAmount = newAmount < 0 ? 0 : newAmount; //Clamping from 0 to +
+        storage.update_all(
+            set(c(&SavingsAccount::balance) = newAmount),
+            where(c(&SavingsAccount::user_id) == user_id)
+            );
         break;
     }
 
@@ -53,11 +64,12 @@ void AccountWindowBase::transferFunds(int sender_id, AccountType sender_type, in
         break;
     }
     case AccountType::Savings:
+        balance = Fetcher::getSavingsAccountFromUserId(sender_id).value().balance;
         break;
     }
 
     if(balance - amount < 0) {
-        return; // Can user afford.
+        return; // User can't afford.
     }
     auto storage = BankDB::getStorage();
 
@@ -71,15 +83,32 @@ void AccountWindowBase::transferFunds(int sender_id, AccountType sender_type, in
             set(c(&PersonalAccount::balance) = c(&PersonalAccount::balance) + amount),
             where(c(&PersonalAccount::user_id) == receiver_id)
             );
+        break;
+    }
+    case AccountType::Savings:
+        std::optional<SavingsAccount> receiver = Fetcher::getSavingsAccountFromUserId(receiver_id);
+        if(!receiver.has_value()) {
+            return; //Check if account exists before proceeding.
+        }
+        storage.update_all(
+            set(c(&SavingsAccount::balance) = c(&SavingsAccount::balance) + amount),
+            where(c(&SavingsAccount::user_id) == receiver_id)
+            );
+        break;
+    }
 
+    switch (sender_type) {
+    case AccountType::Personal:
         storage.update_all(
             set(c(&PersonalAccount::balance) = c(&PersonalAccount::balance) - amount),
             where(c(&PersonalAccount::user_id) == sender_id)
             );
-
         break;
-    }
     case AccountType::Savings:
+        storage.update_all(
+            set(c(&SavingsAccount::balance) = c(&SavingsAccount::balance) - amount),
+            where(c(&SavingsAccount::user_id) == sender_id)
+            );
         break;
     }
 

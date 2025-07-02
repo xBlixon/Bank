@@ -15,6 +15,7 @@ PersonalAccountWindow::PersonalAccountWindow(PersonalAccount account, QWidget *p
     connect(ui->deposit, &QAbstractButton::clicked, this, &PersonalAccountWindow::deposit);
     connect(ui->withdraw, &QAbstractButton::clicked, this, &PersonalAccountWindow::withdraw);
     connect(ui->transfer_personal, &QAbstractButton::clicked, this, &PersonalAccountWindow::transferToPersonal);
+    connect(ui->transfer_savings, &QAbstractButton::clicked, this, &PersonalAccountWindow::transferToSavings);
 }
 
 PersonalAccountWindow::~PersonalAccountWindow()
@@ -55,5 +56,7 @@ void PersonalAccountWindow::transferToPersonal()
 
 void PersonalAccountWindow::transferToSavings()
 {
+    int receiver_id = ui->receiver_user_id->text().toInt();
+    transferFunds(account.user_id, AccountType::Personal, receiver_id, AccountType::Savings, sanitizeAmount());
 
 }

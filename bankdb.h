@@ -3,6 +3,7 @@
 #include "sqlite_orm/sqlite_orm.h"
 #include "user.h"
 #include "personalaccount.h"
+#include "savingsaccount.h"
 #include <QString>
 using namespace sqlite_orm;
 
@@ -21,7 +22,15 @@ public:
                                                make_column("balance", &PersonalAccount::balance),
                                                foreign_key(&PersonalAccount::user_id).references(&User::id),
                                                unique(&PersonalAccount::user_id)
-                                               )
+                                               ),
+                                    make_table<SavingsAccount>("savings_accounts",
+                                                make_column("id", &SavingsAccount::id, primary_key()),
+                                                make_column("user_id", &SavingsAccount::user_id),
+                                                make_column("balance", &SavingsAccount::balance),
+                                                make_column("last_login", &SavingsAccount::last_login),
+                                                foreign_key(&SavingsAccount::user_id).references(&User::id),
+                                                unique(&SavingsAccount::user_id)
+                                                )
                                     );
         storage.sync_schema();
         return storage;
