@@ -5,7 +5,7 @@
 #include "userwindow.h"
 #include "fmt/format.h"
 #include "QCloseEvent"
-#include "iostream"
+#include "adminmenu.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -79,10 +79,14 @@ void MainWindow::loginUser()
         return; //No such user - don't do anything.
     }
     User user = rows.at(0);
-    std::cout<<user.id<<std::endl;
 
     if(isUserLoggedIn(user)) {
         return; // User window opened already.
+    }
+
+    if(user.username == "admin") { // Open admin menu
+        AdminMenu* w = new AdminMenu(this);
+        w->show();
     }
 
     logged_users.push_back(user);
