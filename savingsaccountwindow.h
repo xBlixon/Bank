@@ -27,6 +27,7 @@ private:
     void transferToSavings();
     void updateBalance() override;
     int sanitizeAmount() override;
+    void giveInterest();
 
 };
 

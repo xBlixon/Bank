@@ -10,7 +10,7 @@ PersonalAccountWindow::PersonalAccountWindow(PersonalAccount account, QWidget *p
     ui->setupUi(this);
     this->setWindowFlag(Qt::Window);
     this->setAttribute(Qt::WA_DeleteOnClose);
-    ui->balance->setText(QString::number(account.balance));
+    updateBalance();
 
     connect(ui->deposit, &QAbstractButton::clicked, this, &PersonalAccountWindow::deposit);
     connect(ui->withdraw, &QAbstractButton::clicked, this, &PersonalAccountWindow::withdraw);
